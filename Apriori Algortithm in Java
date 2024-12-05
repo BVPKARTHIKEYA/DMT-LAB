@@ -1,0 +1,18 @@
+import weka.associations.Apriori;
+import weka.core.Instances;
+import weka.core.converters.ConverterUtils.DataSource;
+public class AprioriExample {
+    public static void main(String[] args) {
+        try {
+            DataSource source = new DataSource("data/weather.nominal.arff"); 
+            Instances data = source.getDataSet();
+            Apriori model = new Apriori();
+            model.setClassIndex(data.numAttributes() - 1);  
+            model.buildAssociations(data);
+            System.out.println(model);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
