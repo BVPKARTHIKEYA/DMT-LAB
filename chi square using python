@@ -1,0 +1,21 @@
+import pandas as pd
+from scipy import stats
+import matplotlib.pyplot as plt
+import seaborn as sns
+df = pd.read_csv('Book1.csv')
+contingency_table = pd.crosstab(df['Age'], df['Marks'])
+chi2, p, dof, expected = stats.chi2_contingency(contingency_table)
+print("Contingency Table:")
+print(contingency_table)
+print("\nChi-Square Statistic:", chi2)
+print("P-Value:", p)
+print("Degrees of Freedom:", dof)
+print("Expected Frequencies:")
+print(expected)
+plt.figure(figsize=(8, 6))
+sns.heatmap(contingency_table, annot=True, cmap='Blues', fmt='d')
+plt.title('Contingency Table Heatmap')
+plt.xlabel('Category2(Percentage)')
+plt.ylabel('Category1(Marks)')
+plt.show()
+
