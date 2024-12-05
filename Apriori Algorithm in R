@@ -1,0 +1,9 @@
+install.packages("arules")
+
+
+library(arules)
+library(foreign)
+dataset <- read.arff("C:\\Program Files\\Weka-3-8-6\\data\\weather.nominal.arff")
+transactions <- as(dataset, "transactions")
+rules <- apriori(transactions, parameter = list(supp = 0.2, conf = 0.8))
+inspect(sort(rules, by = "lift")[1:10])  # Top 10 rules sorted by lift
