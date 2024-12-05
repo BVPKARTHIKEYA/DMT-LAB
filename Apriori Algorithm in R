@@ -1,9 +1,10 @@
-install.packages("arules")
-
-
+install.packages("arules",dependencies=TRUE)
+install.packages("aruleviz",dependencies = TRUE)
 library(arules)
-library(foreign)
-dataset <- read.arff("C:\\Program Files\\Weka-3-8-6\\data\\weather.nominal.arff")
-transactions <- as(dataset, "transactions")
-rules <- apriori(transactions, parameter = list(supp = 0.2, conf = 0.8))
-inspect(sort(rules, by = "lift")[1:10])  # Top 10 rules sorted by lift
+library(aruleViz)
+data("Groceries")
+rules<-apriori(Groceries,parameter=list(support=0.01,confidence=0.05))
+inspect(head(rules,n=5))
+sorted_rules<-sort(rules,by='lift',decreasing=TRUE)
+inspect(head(sorted_rules,n=5))
+plot(rules,method="graph",control=list(type="items"))
