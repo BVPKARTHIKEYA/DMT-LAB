@@ -1,0 +1,11 @@
+
+library(ggplot2)
+library(datasets)
+data(iris)
+par(mfrow=c(3,2),mar=c(4,4,2,1)+0.1)
+hist(iris$Sepal.Length,breaks=20,col="lightblue",main='Distribution of Sepal Length',xlab='Sepal Length',ylab='Frequency')
+boxplot(Sepal.Length~Species,data=iris,col=c('lightgreen','lightblue','lightcoral'),main='Box Plot of Sepal Length by Species',xlab='Species',ylab='Sepal Length(cm)')
+species_counts<-table(iris$Species)
+barplot(species_counts,col='skyblue',main='Number of Samples for each species',xlab='Species',ylab='Number of samples')
+pie(species_counts,col=c('lightcoral','lightblue','lightgreen'),main='Proportion of Each Species')
+par(mfrow=c(1,1))
