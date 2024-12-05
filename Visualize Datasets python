@@ -1,0 +1,23 @@
+import matplotlib.pyplot as plt
+import seaborn as sns
+datasetname=input("Enter name of data set:")
+aname=input("Enter name of attribute:")
+dataset = sns.load_dataset(datasetname)
+plt.figure(figsize=(14, 10))
+plt.subplot(2, 2, 1)
+plt.hist(dataset[aname], bins=20, edgecolor='black')
+plt.title('Histogram')
+plt.subplot(2, 2, 2)
+sns.boxplot(x='kind', y=aname, data=dataset)
+plt.title('Box Plot')
+plt.subplot(2, 2, 3)
+species_counts = dataset['kind'].value_counts()
+plt.bar(species_counts.index, species_counts.values, color='skyblue')
+plt.title('Bar Chart')
+plt.subplot(2, 2, 4)
+plt.pie(species_counts, labels=species_counts.index, autopct='%1.1f%%', startangle=140)
+plt.title('Pie Chart')
+plt.tight_layout()
+plt.show()
+
+
