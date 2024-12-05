@@ -1,0 +1,23 @@
+
+import java.util.*;
+public class SimulatedDataSet
+{
+	public static void main(String[] args)
+	{
+		Scanner s=new Scanner(System.in);
+		System.out.println("Enter data set size:");
+		int size=s.nextInt();
+		System.out.println("Enter max limit:");
+		int limit=s.nextInt();
+        	Set<Integer> uniqueDataSet = new HashSet<>();
+
+        	Random random = new Random();
+        	while (uniqueDataSet.size() < size)
+		{
+            		int randomNumber = random.nextInt(limit);
+            		uniqueDataSet.add(randomNumber);
+        	}
+        	System.out.println("Simulated Unique Data Set: " + uniqueDataSet);
+    	}
+}
+
