@@ -1,0 +1,23 @@
+install.packages("e1071")
+install.packages("caret")
+
+
+
+library(e1071)
+library(caret)  
+data(iris)
+set.seed(42)
+trainIndex <- createDataPartition(iris$Species, p = 0.6, list = FALSE)
+trainData <- iris[trainIndex,]
+testData <- iris[-trainIndex,]
+model <- naiveBayes(Species ~ ., data = trainData)
+predictions <- predict(model, testData)
+conf_matrix <- confusionMatrix(predictions, testData$Species)
+print("\nClassification Report:")
+print(conf_matrix)
+accuracy <- conf_matrix$overall["Accuracy"]
+cat(sprintf("\nAccuracy: %.2f%%\n", accuracy * 100))
+mae <- mean(abs(as.numeric(predictions) - as.numeric(testData$Species)))
+rmse <- sqrt(mean((as.numeric(predictions) - as.numeric(testData$Species))^2))
+cat(sprintf("Mean Absolute Error: %.4f\n", mae))
+cat(sprintf("Root Mean Squared Error: %.4f\n", rmse))
