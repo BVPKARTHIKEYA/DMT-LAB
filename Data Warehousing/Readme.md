@@ -1,3 +1,4 @@
+Multi-Dimensional Models for Banking
 STAR SCHEMA
 ![image](https://github.com/user-attachments/assets/563c4846-7312-44a2-b779-3f0d66c3821b)
 SNOWFLAKE SCHEMA
