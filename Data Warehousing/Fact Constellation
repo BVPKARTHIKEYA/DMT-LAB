@@ -1,0 +1,83 @@
+CREATE TABLE Dim_customer (
+    customer_id INT PRIMARY KEY,
+    customer_name VARCHAR(100),
+    customer_age INT,
+    gender VARCHAR(10),
+    address VARCHAR(255)
+);
+CREATE TABLE Dim_account_type (
+    account_type_id INT PRIMARY KEY,
+    account_type_name VARCHAR(50)
+);
+CREATE TABLE Dim_account (
+    account_id INT PRIMARY KEY,
+    customer_id INT,
+    account_type_id INT,
+    open_date DATE,
+    balance DECIMAL(12, 2),
+    FOREIGN KEY (customer_id) REFERENCES Dim_customer(customer_id),
+    FOREIGN KEY (account_type_id) REFERENCES Dim_account_type(account_type_id)
+);
+CREATE TABLE Dim_branch (
+    branch_id INT PRIMARY KEY,
+    branch_name VARCHAR(100),
+    location VARCHAR(100)
+);
+CREATE TABLE Dim_date (
+    date_id INT PRIMARY KEY,
+    day INT,
+    month INT,
+    year INT,
+    quarter INT
+);
+CREATE TABLE Dim_loan_type (
+    loan_type_id INT PRIMARY KEY,
+    loan_type_name VARCHAR(50)
+);
+CREATE TABLE Fact_transactions (
+    transaction_id INT PRIMARY KEY,
+    account_id INT,
+    branch_id INT,
+    transaction_date INT,  -- Refers to Dim_date.date_id
+    amount DECIMAL(12, 2),
+    transaction_type VARCHAR(50),
+    FOREIGN KEY (account_id) REFERENCES Dim_account(account_id),
+    FOREIGN KEY (branch_id) REFERENCES Dim_branch(branch_id),
+    FOREIGN KEY (transaction_date) REFERENCES Dim_date(date_id)
+);
+CREATE TABLE Fact_loans (
+    loan_id INT PRIMARY KEY,
+    customer_id INT,
+    loan_type_id INT,
+    branch_id INT,
+    loan_date INT,  -- Refers to Dim_date.date_id
+    loan_amount DECIMAL(12, 2),
+    loan_status VARCHAR(50),
+    FOREIGN KEY (customer_id) REFERENCES Dim_customer(customer_id),
+    FOREIGN KEY (loan_type_id) REFERENCES Dim_loan_type(loan_type_id),
+    FOREIGN KEY (branch_id) REFERENCES Dim_branch(branch_id),
+    FOREIGN KEY (loan_date) REFERENCES Dim_date(date_id)
+);
+
+INSERT INTO Dim_customer (customer_id, customer_name, customer_age, gender, address)VALUES (1, 'John Doe', 35, 'Male', '123 Elm St');
+
+INSERT INTO Dim_account_type (account_type_id, account_type_name)
+VALUES (1, 'Savings');
+
+INSERT INTO Dim_account (account_id, customer_id, account_type_id, open_date, balance)VALUES (1, 1, 1, '2024-01-01', 5000.00);
+
+INSERT INTO Dim_branch (branch_id, branch_name, location)VALUES 
+(1, 'Downtown Branch', 'Downtown City');
+
+INSERT INTO Dim_date (date_id, day, month, year, quarter)VALUES 
+(20240101, 1, 1, 2024, 1);
+
+INSERT INTO Dim_loan_type (loan_type_id, loan_type_name)VALUES 
+(1, 'Home Loan');
+
+INSERT INTO Fact_transactions (transaction_id, account_id, branch_id, transaction_date, amount, transaction_type)VALUES 
+(1, 1, 1, 20240101, 2000.00, 'Deposit');
+
+INSERT INTO Fact_loans (loan_id, customer_id, loan_type_id, branch_id, loan_date, loan_amount, loan_status)VALUES (1, 1, 1, 1, 20240101, 200000.00, 'Approved');
+
+
