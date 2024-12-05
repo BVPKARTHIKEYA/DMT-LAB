@@ -1,0 +1,27 @@
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+df=pd.read_csv('Book1.csv')
+data=df.to_numpy()
+def euclidean_distance(x1, x2):
+    return np.sqrt(np.sum((x1 - x2) ** 2))
+def compute_dissimilarity_matrix(data):
+    num_instances = data.shape[0]
+    dissimilarity_matrix = np.zeros((num_instances, num_instances))
+    for i in range(num_instances):
+        for j in range(num_instances):
+            if i != j:
+                dissimilarity_matrix[i, j] = euclidean_distance(data[i], data[j])
+    return dissimilarity_matrix
+dissimilarity_matrix = compute_dissimilarity_matrix(data)
+dissimilarity_matrix = np.round(dissimilarity_matrix, 1)
+print("Dissimilarity Matrix:")
+print(pd.DataFrame(dissimilarity_matrix, columns=df.index, index=df.index))
+plt.figure(figsize=(8, 6))
+sns.heatmap(dissimilarity_matrix, annot=True, cmap='coolwarm', fmt='.1f',
+            xticklabels=df.index, yticklabels=df.index)
+plt.title('Dissimilarity Matrix Heatmap')
+plt.xlabel('Instance')
+plt.ylabel('Instance')
+plt.show()
