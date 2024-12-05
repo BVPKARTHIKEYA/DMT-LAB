@@ -15,3 +15,14 @@ print(kmeans_result$cluster)
 system_out <- .jfield("java/lang/System", "Ljava/io/PrintStream;", "out")
 .jcall(system_out, "V", "println", "K-means clustering completed in R.")
 
+if(!require(ggplot2)) install.packages("ggplot2", dependencies=TRUE)
+library(ggplot2)
+data <- iris[, -5]  
+true_labels <- iris$Species 
+k <- 3 
+kmeans_result <- kmeans(data, centers = k)
+iris$Cluster <- as.factor(kmeans_result$cluster)
+ggplot(iris, aes(x = Sepal.Length, y = Sepal.Width, color = Cluster)) +
+  geom_point(size = 3) +
+  geom_point(data = as.data.frame(kmeans_result$centers), aes(x = Sepal.Length, y = Sepal.Width),
+             color = "red", size = 5, shape = 4) + labs(title = "K-Means Clustering on Iris Dataset", x = "Sepal Length", y = "Sepal Width") + theme_minimal()
